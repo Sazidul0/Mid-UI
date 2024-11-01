@@ -8,6 +8,8 @@ class MidTerm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    RxBool firstUiButtonClicked = false.obs;
+    RxBool menuButtonClicked = false.obs;
     RxBool buttonClicked = false.obs;
     var size = Get.size;
 
@@ -22,53 +24,47 @@ class MidTerm extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center, // Center the circles
                   children: [
+                    // Menu Icon
+                    AnimatedPositioned(
+                      duration: const Duration(milliseconds: 355),
+                      curve: Curves.easeOut,
+                      top: size.width * 0.025,
+                      right: size.width * 0.01,
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 355),
+                        opacity: buttonClicked.value ? 1 : 0,
+                        child:  Column(
+                          children: [
+                             GestureDetector(
+                                 onTap: () {
+                                   menuButtonClicked.value = !menuButtonClicked.value;
+                                 },
+                                 child: Icon(menuButtonClicked.value ? Icons.close : Icons.menu, color: Colors.black,))
+                          ],
+                        ),
+                      ),
+                    ),
+
 
                     // First circle (bottom)
                     AnimatedPositioned(
                       duration: const Duration(milliseconds: 355),
                       curve: Curves.easeOut,
-                      top: buttonClicked.value ? size.width*.61 : size.width*.76,
+                      top: buttonClicked.value ? (menuButtonClicked.value ? size.width*0.2 : size.width*.84) : (!firstUiButtonClicked.value ? size.width*.84 : size.width*.76),
+                      right: buttonClicked.value ? (menuButtonClicked.value ? 0 : size.width*.04) : (!firstUiButtonClicked.value ? size.width*.294 : size.width*.209),
                       child: AnimatedContainer(
                           duration: const Duration(milliseconds: 355),
                           curve: Curves.easeOut,
                           // alignment: Alignment.center,
-                          width: buttonClicked.value ? size.width*.8 : size.width * .46,
-                          height: buttonClicked.value ? size.width*.8 : size.width * .46,
+                          width: buttonClicked.value ? (menuButtonClicked.value ? size.width-42 : size.width*.38) : (!firstUiButtonClicked.value ? size.width*.3 : size.width * .46),
+                          height: buttonClicked.value ? (menuButtonClicked.value? size.width*1.2 : size.width*.41) : (!firstUiButtonClicked.value ? size.width*.3 : size.width * .46),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(buttonClicked.value ? 60 : 100),
+                            borderRadius: BorderRadius.circular(buttonClicked.value ? (menuButtonClicked.value ? 35 : 60) : 100),
                             color: Color(0xff999999),
                           ),
-                          child: buttonClicked.value ? AnimatedOpacity(
-                            duration: const Duration(milliseconds: 355),
-                            opacity: buttonClicked.value ? 1 : 0,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.shopping_cart, size: size.width * .06,),
-                                    Text(" Items in Cart", style: TextStyle(fontSize: size.width * .05),)
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.history_toggle_off, size: size.width * .06,),
-                                    Text(" Purchase history", style: TextStyle(fontSize: size.width * .05),)
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.settings_outlined, size: size.width * .06,),
-                                    Text(" App Settings", style: TextStyle(fontSize: size.width * .05),)
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ) : SizedBox()
+
+
+
                       ),
                     ),
 
@@ -76,46 +72,42 @@ class MidTerm extends StatelessWidget {
                     AnimatedPositioned(
                       duration: const Duration(milliseconds: 355),
                       curve: Curves.easeOut,
-                      top: buttonClicked.value ? size.width*.33 : size.width * .8, // Adjust this value to move the circle
-                      right: buttonClicked.value ? 0 : size.width*.25,
-                      child:
-                      GestureDetector(
-                        onTap: () {
-                          buttonClicked.value = false;
-                        },
-                        child: AnimatedContainer(
+                      top: buttonClicked.value ? (menuButtonClicked.value ? size.width *0.4 : size.width*.25) : (!firstUiButtonClicked.value ? size.width*.84 : size.width * .8), // Adjust this value to move the circle
+                      right: buttonClicked.value ? (menuButtonClicked.value ? size.width*0.05 : size.width* .04) : (!firstUiButtonClicked.value ? size.width*.29 : size.width*.25),
+                      child: AnimatedContainer(
                           duration: const Duration(milliseconds: 355),
                           curve: Curves.easeOut,
-                          width: buttonClicked.value ? size.width*.2 : size.width * .38,
-                          height: buttonClicked.value ? size.width*.2 : size.width * .38,
+                          width: buttonClicked.value ? (menuButtonClicked.value ? size.width - 42 - size.width*0.1 : size.width*.38) : (!firstUiButtonClicked.value ? size.width*.3 : size.width * .38),
+                          height: buttonClicked.value ? (menuButtonClicked.value ? size.width*1.052 - size.width*0.1 : size.width*.56) : (!firstUiButtonClicked.value ? size.width*.3 : size.width * .38),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
+                            borderRadius: BorderRadius.circular(buttonClicked.value ? (menuButtonClicked.value ? 35 : 60) : 100),
                             color: Color(0xff4d4d4d),
                           ),
-                          child: AnimatedOpacity(
-                              duration: const Duration(milliseconds: 121),
-                              opacity: buttonClicked.value ? 1 : 0,
-                              child: Icon(Icons.rotate_left, size: size.width * 0.1, color: Colors.white,)),
+
                         ),
-                      )
-                      ,
+
                     ),
                     // Third Circle (The top Circle)
                     AnimatedPositioned(
                       duration: const Duration(milliseconds: 355),
                       curve: Curves.easeOut,
-                      top: buttonClicked.value ? size.width*.25 : size.width * .84,
-                      left: buttonClicked.value ? size.width*.05 : size.width * .295,
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 355),
-                        curve: Curves.easeOut,
-                        width: buttonClicked.value ? size.width*.3 : size.width * .3,
-                        height: buttonClicked.value ? size.width : size.width * .3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.black,
-                        ),
+                      top: buttonClicked.value ? (menuButtonClicked.value ? size.width*.236 : size.width*.25) : size.width * .84,
+                      left: buttonClicked.value ? (menuButtonClicked.value ? size.width*.7 : size.width*.05) : size.width * .295,
+                      child: GestureDetector(
+                        onTap: () {
+                          firstUiButtonClicked.value = !firstUiButtonClicked.value;
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 355),
+                          curve: Curves.easeOut,
+                          width: buttonClicked.value ? (menuButtonClicked.value ? size.width*.15 : size.width*.38) : size.width * .3,
+                          height: buttonClicked.value ? (menuButtonClicked.value ? size.width*0.15 : size.width) : size.width * .3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.black,
+                          ),
 
+                        ),
                       ),
                     ),
 
@@ -123,21 +115,33 @@ class MidTerm extends StatelessWidget {
                     AnimatedPositioned(
                       duration: const Duration(milliseconds: 355),
                       curve: Curves.easeOut,
-                      top: buttonClicked.value? size.width*.21 : size.width * .94,
+                      top: buttonClicked.value? size.width*.01 : size.width * .94,
                       left: buttonClicked.value? size.width*.33 : size.width* .40,
                       child:
-                      GestureDetector(
-                        onTap: () {
-                          buttonClicked.value = !buttonClicked.value;
-                        },
-                        child: Text(
-                          buttonClicked.value ? "Ripples" : "GO",
-                          style: TextStyle(
-                            fontSize: size.width * 0.07,
-                            color: buttonClicked.value? Colors.black : Colors.white,
-                            fontWeight: FontWeight.w900,
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 355),
+                        opacity: firstUiButtonClicked.value ? 1 : (buttonClicked.value ? 1 : 0),
+                        child: SizedBox(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (firstUiButtonClicked.value == true){
+                                buttonClicked.value = !buttonClicked.value;
+                              }
+                              else{
+                                firstUiButtonClicked.value = true;
+                              }
+
+                            },
+                            child: Text(
+                              buttonClicked.value ? "Ripples" : "GO",
+                              style: TextStyle(
+                                fontSize: size.width * 0.07,
+                                color: buttonClicked.value? Colors.black : Colors.white,
+                                fontWeight: FontWeight.w900,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
-                          textAlign: TextAlign.left,
                         ),
                       ),
                     ),
